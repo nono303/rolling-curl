@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 Authored by Josh Fraser (www.joshfraser.com)
 Released under Apache License 2.0
@@ -65,7 +65,7 @@ class RollingCurl {
 	 * @var int
 	 *
 	 * Window size is the max number of simultaneous connections allowed.
-	 * 
+	 *
 	 * REMEMBER TO RESPECT THE SERVERS:
 	 * Sending too many requests at one time can easily be perceived
 	 * as a DOS attack. Increase this window_size if you are making requests
@@ -98,7 +98,7 @@ class RollingCurl {
 		CURLOPT_CONNECTTIMEOUT => 30,
 		CURLOPT_TIMEOUT => 30
 	);
-	
+
 	/**
 	 * @var array
 	 */
@@ -232,7 +232,7 @@ class RollingCurl {
 	 * @return string
 	 */
 	private function single_curl() {
-		$ch = curl_init();		
+		$ch = curl_init();
 		$request = array_shift($this->requests);
 		$options = $this->get_options($request);
 		curl_setopt_array($ch,$options);
@@ -266,7 +266,7 @@ class RollingCurl {
 		// make sure the rolling window isn't greater than the # of urls
 		if (sizeof($this->requests) < $this->window_size)
 			$this->window_size = sizeof($this->requests);
-		
+
 		if ($this->window_size < 2) {
 			throw new RollingCurlException("Window size must be greater than 1");
 		}
