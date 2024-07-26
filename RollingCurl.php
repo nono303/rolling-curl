@@ -56,6 +56,12 @@ class RollingCurlException extends Exception {}
  */
 class RollingCurl {
 	/**
+	 * @var bool
+	 *
+	 * Display debug log if true
+	 */
+	private $verbose = false;
+	/**
 	 * @var int
 	 *
 	 * Window size is the max number of simultaneous connections allowed.
@@ -265,10 +271,12 @@ class RollingCurl {
 			throw new RollingCurlException("Window size must be greater than 1");
 		}
 
-		$master = curl_multi_init();		
+		$master = curl_multi_init();
 
 		// start the first batch of requests
 		for ($i = 0; $i < $this->window_size; $i++) {
+			if($this->verbose)
+				echo "rolling_curl(".$i."/".count($this->requests).")".PHP_EOL;
 			$ch = curl_init();
 
 			$options = $this->get_options($this->requests[$i]);
@@ -304,6 +312,8 @@ class RollingCurl {
 
 				// start a new request (it's important to do this before removing the old one)
 				if ($i < sizeof($this->requests) && isset($this->requests[$i]) && $i < count($this->requests)) {
+					if($this->verbose)
+						echo "rolling_curl(".$i."/".count($this->requests).")".PHP_EOL;
 					$ch = curl_init();
 					curl_setopt_array($ch,$options);
 					curl_multi_add_handle($master, $ch);
