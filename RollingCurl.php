@@ -112,6 +112,13 @@ class RollingCurl {
 	private $requests = array();
 
 	/**
+	 * @var Cached[]
+	 *
+	 * The cached queue
+	 */
+	public $read = [];
+
+	/**
 	 * @var RequestMap[]
 	 *
 	 * Maps handles to request indexes
@@ -243,7 +250,7 @@ class RollingCurl {
 		if ($this->callback) {
 			$callback = $this->callback;
 			if (is_callable($this->callback)){
-				call_user_func($callback, $output, $info, $request,$this->get_options($this->requests[$i]));
+				call_user_func($callback, $output, $info, $request,$this->get_options($request));
 			}
 		}
 		else
