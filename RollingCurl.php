@@ -112,9 +112,9 @@ class RollingCurl {
 	private $requests = array();
 
 	/**
-	 * @var Cached[]
+	 * @var read[]
 	 *
-	 * The cached queue
+	 * The readed queue
 	 */
 	public $read = [];
 
